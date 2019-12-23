@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/all"
+        android:title="@string/time_out"
+        android:icon="@drawable/ic_access_time_black_24dp"
+
+        />
+    <item
+        android:id="@+id/menu_in"
+        android:title="@string/in"
+        android:icon="@drawable/in_black"
+        />
+    <item
+        android:id="@+id/menu_out"
+        android:title="@string/out"
+        android:icon="@drawable/out_black"
+        />
+    <item
+        android:id="@+id/flaged"
+        android:icon="@drawable/ic_warning_black_24dp"
+        android:title="@string/flaged"
+        />
+
+</menu>
