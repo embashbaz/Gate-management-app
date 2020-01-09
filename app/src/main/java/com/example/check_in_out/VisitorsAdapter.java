@@ -3,6 +3,8 @@ package com.example.check_in_out;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorsAdapter extends RecyclerView.Adapter<VisitorsAdapter.VisitorHolder> {
+public class VisitorsAdapter extends RecyclerView.Adapter<VisitorsAdapter.VisitorHolder> implements Filterable {
     private List<Visitors> visitors = new ArrayList<>();
+    private List<Visitors> visitorsSearch = new ArrayList<>();
     OnItemCLickListerner listener;
 
     @NonNull
@@ -48,6 +51,7 @@ public class VisitorsAdapter extends RecyclerView.Adapter<VisitorsAdapter.Visito
 
     public void setVisitors(List<Visitors> visitors){
         this.visitors = visitors;
+        visitorsSearch = new ArrayList<>(visitors);
         notifyDataSetChanged();
     }
 
@@ -55,6 +59,38 @@ public class VisitorsAdapter extends RecyclerView.Adapter<VisitorsAdapter.Visito
     @Override
     public int getItemCount() {
         return visitors.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+         Filter filter =new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                List<Visitors> list = new ArrayList<>();
+                if(charSequence.length() == 0 || charSequence == null){
+                    list.addAll(visitorsSearch);
+                }else{
+                    String pattern = charSequence.toString().toLowerCase().trim();
+                    for(Visitors visit: visitorsSearch){
+                        if(visit.getIdNumber().toLowerCase().contains(pattern) || visit.getName().toLowerCase().contains(pattern))
+                            list.add(visit);
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = list;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                visitors.clear();
+                visitors.addAll((List) filterResults.values);
+                notifyDataSetChanged();
+            }
+        };
+
+        return filter;
     }
 
     class VisitorHolder extends RecyclerView.ViewHolder{

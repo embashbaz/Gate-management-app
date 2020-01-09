@@ -19,4 +19,5 @@
     <string name="time_out">Time Out</string>
     <string name="flag_reason_tv">Please do provide a reason for flaggin this person</string>
     <string name="reason_flag_et">Reason</string>
+    <string name="search">Search</string>
 </resources>
