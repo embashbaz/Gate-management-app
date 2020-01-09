@@ -81,7 +81,7 @@ public class CheckIn extends AppCompatActivity implements DialogBox.ListenerDial
 
         if (name.trim().isEmpty() || idNumber.trim().isEmpty()
                 || phone.trim().isEmpty() || purposse.trim().isEmpty()) {
-            Toast.makeText(this, "fill all the required fied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "fill all the required field", Toast.LENGTH_SHORT).show();
             return;
         }
 

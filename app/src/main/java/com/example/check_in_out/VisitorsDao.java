@@ -30,6 +30,9 @@ public interface VisitorsDao {
     @Query("SELECT * FROM Visitors_table WHERE status LIKE :statusParams ORDER BY timeIn AND dateIn DESC")
     LiveData<List<Visitors>> selectAllStatus(boolean statusParams);
 
+    @Query("SELECT * FROM Visitors_table WHERE status LIKE :statusParams ORDER BY timeIn AND dateIn DESC")
+    List<Visitors> selectAllStatusJS(boolean statusParams);
+
     @Query("SELECT * FROM Visitors_table WHERE flagIn LIKE :flagInParams OR flagOut LIKE :flagOutParams ORDER BY timeIn AND dateIn DESC")
     LiveData<List<Visitors>> selectAllFlag(boolean flagInParams, boolean flagOutParams );
 }

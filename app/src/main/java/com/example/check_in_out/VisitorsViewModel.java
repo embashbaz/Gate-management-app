@@ -12,7 +12,7 @@ public class VisitorsViewModel extends AndroidViewModel {
 
     private VisitorsRepository repository;
     private LiveData<List<Visitors>> allVisitors;
-    private LiveData<List<Visitors>> inVisitors;
+    public LiveData<List<Visitors>> inVisitors;
     private LiveData<List<Visitors>> outVisitors;
     private LiveData<List<Visitors>> flagVisitors;
 
@@ -49,5 +49,10 @@ public class VisitorsViewModel extends AndroidViewModel {
         return  outVisitors;
     }
     public  LiveData<List<Visitors>> getFlagVisitors(){return  flagVisitors;
+    }
+
+    public class data{
+
+
     }
 }

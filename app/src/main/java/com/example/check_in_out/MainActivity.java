@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private int requestCodes=1;
     private int requestCodesUpdate=2;
     final VisitorsAdapter adapter = new VisitorsAdapter();
+    UtilClass utilClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        utilClass = new UtilClass();
+        utilClass.scheduleJob(this);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListner = new BottomNavigationView.OnNavigationItemSelectedListener() {

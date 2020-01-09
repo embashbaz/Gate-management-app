@@ -14,6 +14,7 @@ public class VisitorsRepository {
     private LiveData<List<Visitors>> inVisitors;
     private LiveData<List<Visitors>> outVisitors;
     private LiveData<List<Visitors>> flagVisitors;
+    private List<Visitors> inVisitorsJS;
 
     public  VisitorsRepository (Application application){
         VisitorsDb visitorsDb = VisitorsDb.getInstance(application);
@@ -22,6 +23,7 @@ public class VisitorsRepository {
         inVisitors = visitorsDao.selectAllStatus(true);
         outVisitors = visitorsDao.selectAllStatus(false);
         flagVisitors = visitorsDao.selectAllFlag(true, true);
+        inVisitorsJS = visitorsDao.selectAllStatus(true).getValue();
     }
 
    public void insert(Visitors visitors){
@@ -46,8 +48,13 @@ public class VisitorsRepository {
     public  LiveData<List<Visitors>> getOutVisitors(){
         return  outVisitors;
     }
+
     public  LiveData<List<Visitors>> getFlagVisitors(){
         return  flagVisitors;
+    }
+
+    public  List<Visitors> getInVisitorsJS(){
+        return  inVisitorsJS;
     }
 
     public static class InsertAsyncTAsk extends AsyncTask<Visitors,Void, Void>{
