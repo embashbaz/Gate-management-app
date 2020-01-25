@@ -17,7 +17,7 @@ public class UtilClass {
         ComponentName componentName = new ComponentName(context, JobBackground.class);
         JobInfo info = new JobInfo.Builder(123, componentName)
                 .setPersisted(true)
-                .setPeriodic(60 * 60 * 1000)
+                .setPeriodic(15* 60 * 1000)
                 .build();
 
         JobScheduler scheduler = (JobScheduler) context.getSystemService(JOB_SCHEDULER_SERVICE);

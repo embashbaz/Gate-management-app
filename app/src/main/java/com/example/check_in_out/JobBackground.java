@@ -1,8 +1,10 @@
 package com.example.check_in_out;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -17,6 +19,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+import static com.example.check_in_out.CheckIn.EXTRA;
+import static com.example.check_in_out.CheckIn.EXTRA_ID;
 
 
 public class JobBackground extends JobService {
@@ -78,7 +83,7 @@ public class JobBackground extends JobService {
                     }catch (ParseException p){
                         Log.d(TAG, "run: ex");
                     }
-                    if((current.getTime()+ 1.08e+7)< allTime.getTime() || current.getTime() < dateOnly.getTime() ){
+                    if((current.getTime()+  (5*60*1000))< allTime.getTime() || current.getTime() < dateOnly.getTime() ){
                         overStayed.add(visit);
                     }
 
@@ -87,11 +92,18 @@ public class JobBackground extends JobService {
                     return;
                 for(int i=0; i<overStayed.size(); i++){
                     Visitors visit = visitor.get(i);
+                    Intent notificationIntent = new Intent(getApplicationContext(), CheckOut.class);
+                    passData(notificationIntent,visit);
+                    PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                            2, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
                     Notification notification = new NotificationCompat.Builder(JobBackground.this,  app.channel)
                             .setSmallIcon(R.drawable.in_black)
                             .setContentTitle("This is person is still in")
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setContentText(visit.getName() +" of id "+visit.getIdNumber())
+                            .setContentIntent(notificationPendingIntent)
+                            .setAutoCancel(true)
                             .build();
                     notificationManagerCompat.notify(i, notification);
                 }
@@ -99,6 +111,24 @@ public class JobBackground extends JobService {
             jobFinished(jobParameters, false);
             }
         }).start();
+    }
+
+    void passData(Intent data, Visitors visit){
+        data.putExtra(EXTRA_ID,visit.getId());
+        data.putExtra(EXTRA + "name", visit.getName());
+        data.putExtra(EXTRA + "secondname", visit.getSecondName());
+        data.putExtra(EXTRA + "idnumber",visit.getIdNumber());
+        data.putExtra(EXTRA + "plate", visit.getPlate());
+        data.putExtra(EXTRA + "phone",visit.getPhone());
+        data.putExtra(EXTRA + "purpose", visit.getPurpose());
+        data.putExtra(EXTRA + "date",visit.getDateIn());
+        data.putExtra(EXTRA + "time", visit.getTimeIn());
+        data.putExtra(EXTRA + "flag", visit.isFlagIn());
+        data.putExtra(EXTRA+"flagReason", visit.getFlagReason());
+        data.putExtra(EXTRA + "status", visit.isStatus());
+        data.putExtra(EXTRA + "timeOut", visit.getTimeOut());
+        data.putExtra(EXTRA + "dateOut", visit.getDateOut());
+
     }
 
     @Override
